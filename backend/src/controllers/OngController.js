@@ -1,15 +1,15 @@
 const cryptyo = require('crypto');
-const connection = require('../database/connection')
+const connection = require('../database/connection');
 
 module.exports = {
   async index(req, res) {
-    const ongs = await connection('ongs').select('*')
-    return res.json(ongs)
+    const ongs = await connection('ongs').select('*');
+    return res.json(ongs);
   },
 
   async create(req, res) {
-    const {name, email, whatsapp, city, uf} = req.body
-    const id = cryptyo.randomBytes(4).toString('HEX')
+    const {name, email, whatsapp, city, uf} = req.body;
+    const id = cryptyo.randomBytes(4).toString('HEX');
 
     await connection('ongs').insert({
       id,
@@ -18,8 +18,10 @@ module.exports = {
       whatsapp,
       city,
       uf
-    })
+    });
 
-    return res.json({id})
+    console.log(`New ONG created: ${id} - ${name} - ${city} - ${uf}`);
+
+    return res.json({id});
   }
 };
